@@ -1,0 +1,109 @@
+DROP DATABASE IF EXISTS db_fixture_voley;
+CREATE DATABASE db_fixture_voley CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE db_fixture_voley;
+
+-- 1. Tabla Usuarios
+CREATE TABLE usuario (
+  id_usuario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  usuario VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  estado TINYINT(1) DEFAULT 1
+);
+
+-- 2. Tabla Equipos
+CREATE TABLE equipo (
+  id_equipo INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL UNIQUE,
+  descripcion VARCHAR(255),
+  estado TINYINT(1) DEFAULT 1
+);
+
+-- 3. Tabla Torneos
+CREATE TABLE torneo (
+  id_torneo INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(120) NOT NULL,
+  fecha_inicio DATE NOT NULL,
+  fecha_fin DATE,
+  tabla_publicada TINYINT(1) DEFAULT 0
+);
+
+-- 4. Tabla Permisos
+CREATE TABLE permiso (
+  id_permiso INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_equipo INT UNSIGNED NOT NULL,
+  fecha DATE NOT NULL,
+  motivo VARCHAR(255) NOT NULL,
+  estado TINYINT(1) DEFAULT 1,
+  FOREIGN KEY (id_equipo) REFERENCES equipo(id_equipo) ON DELETE CASCADE,
+  UNIQUE KEY uq_permiso_fecha (id_equipo, fecha)
+);
+
+-- 5. Tabla Inscripciones 
+CREATE TABLE inscripcion (
+  id_inscripcion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_torneo INT UNSIGNED NOT NULL,
+  id_equipo INT UNSIGNED NOT NULL,
+  FOREIGN KEY (id_torneo) REFERENCES torneo(id_torneo) ON DELETE CASCADE,
+  FOREIGN KEY (id_equipo) REFERENCES equipo(id_equipo) ON DELETE CASCADE,
+  UNIQUE KEY uq_inscripcion (id_torneo, id_equipo)
+);
+
+-- 6. Tabla Partidos
+CREATE TABLE partido (
+  id_partido INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_torneo INT UNSIGNED NOT NULL,
+  fecha DATE NOT NULL,
+  hora TIME,
+  estado ENUM('Programado', 'Jugado', 'Suspendido') DEFAULT 'Programado',
+  FOREIGN KEY (id_torneo) REFERENCES torneo(id_torneo) ON DELETE CASCADE
+);
+
+-- 7. Tabla Detalle Partido 
+CREATE TABLE detalle_partido (
+  id_detalle INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_partido INT UNSIGNED NOT NULL,
+  id_equipo INT UNSIGNED NOT NULL,
+  rol ENUM('Local', 'Visitante') NOT NULL,
+  FOREIGN KEY (id_partido) REFERENCES partido(id_partido) ON DELETE CASCADE,
+  FOREIGN KEY (id_equipo) REFERENCES equipo(id_equipo) ON DELETE CASCADE
+);
+
+-- 8. Tabla Detalle Resultado 
+CREATE TABLE detalle_resultado (
+  id_detalle_resultado INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_detalle INT UNSIGNED NOT NULL,
+  sets_ganados TINYINT UNSIGNED NOT NULL,
+  puntos_anotados INT UNSIGNED NOT NULL,
+  FOREIGN KEY (id_detalle) REFERENCES detalle_partido(id_detalle) ON DELETE CASCADE,
+  UNIQUE KEY uq_resultado_detalle (id_detalle) -- Un equipo solo tiene un resultado por partido
+);
+
+-- ==========================================
+-- VISTA PARA LA TABLA DE POSICIONES
+-- Genera las 11 columnas exactas del ejemplo
+-- ==========================================
+CREATE OR REPLACE VIEW vista_tabla_posiciones AS
+SELECT 
+    e.nombre AS Equipo,
+    COUNT(dp.id_detalle) AS JJ,
+    SUM(CASE WHEN dr.sets_ganados = 2 AND dr_contra.sets_ganados = 0 THEN 1 ELSE 0 END) AS JG2,
+    SUM(CASE WHEN dr.sets_ganados = 2 AND dr_contra.sets_ganados = 1 THEN 1 ELSE 0 END) AS JG3,
+    SUM(CASE WHEN dr.sets_ganados = 0 AND dr_contra.sets_ganados = 2 THEN 1 ELSE 0 END) AS JP2,
+    SUM(CASE WHEN dr.sets_ganados = 1 AND dr_contra.sets_ganados = 2 THEN 1 ELSE 0 END) AS JP3,
+    SUM(dr.puntos_anotados) AS PF,
+    SUM(dr_contra.puntos_anotados) AS PC,
+    (SUM(dr.puntos_anotados) - SUM(dr_contra.puntos_anotados)) AS DP,
+    SUM(CASE 
+        WHEN dr.sets_ganados = 2 AND dr_contra.sets_ganados = 0 THEN 3 
+        WHEN dr.sets_ganados = 2 AND dr_contra.sets_ganados = 1 THEN 2 
+        WHEN dr.sets_ganados = 1 AND dr_contra.sets_ganados = 2 THEN 1 
+        ELSE 0 
+    END) AS Puntos
+FROM equipo e
+JOIN detalle_partido dp ON e.id_equipo = dp.id_equipo
+JOIN detalle_resultado dr ON dp.id_detalle = dr.id_detalle
+JOIN detalle_partido dp_contra ON dp.id_partido = dp_contra.id_partido AND dp.id_detalle <> dp_contra.id_detalle
+JOIN detalle_resultado dr_contra ON dp_contra.id_detalle = dr_contra.id_detalle
+GROUP BY e.id_equipo, e.nombre
+ORDER BY Puntos DESC, DP DESC;

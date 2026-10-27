@@ -1,0 +1,205 @@
+/* =========================================
+   ESTILOS GENERALES
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* Fondos */
+.fondo-degradado {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fondo-gris {
+    background-color: #f0f2f5;
+    padding: 20px;
+}
+
+/* =========================================
+   ESTILOS DEL LOGIN
+   ========================================= */
+.contenedor-login {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.logo-login h1 {
+    text-align: center;
+    color: #1e3c72;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.contenedor-login h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.grupo-input {
+    margin-bottom: 20px;
+}
+
+.grupo-input label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.grupo-input input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.grupo-input input:focus {
+    outline: none;
+    border-color: #2a5298;
+}
+
+.boton-principal {
+    width: 100%;
+    padding: 12px;
+    background-color: #2a5298;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.boton-principal:hover {
+    background-color: #1e3c72;
+}
+
+/* =========================================
+   ESTILOS DEL DASHBOARD (LISTA/EQUIPOS)
+   ========================================= */
+.contenedor-dashboard {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.header-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.header-dashboard h1 {
+    color: #1e3c72;
+    font-size: 24px;
+}
+
+.boton-salir {
+    text-decoration: none;
+    color: #dc3545;
+    font-weight: bold;
+    padding: 8px 15px;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.boton-salir:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.seccion-registro, .seccion-lista {
+    margin-bottom: 30px;
+}
+
+.seccion-registro h2, .seccion-lista h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.formulario-equipo {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.formulario-equipo input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.formulario-equipo .boton-principal {
+    width: auto;
+    padding: 10px 20px;
+}
+
+/* Tabla */
+.tabla-equipos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-equipos th, .tabla-equipos td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla-equipos th {
+    background-color: #f8f9fa;
+    color: #555;
+    font-weight: 600;
+}
+
+.tabla-equipos tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Botones de la tabla */
+.boton-editar, .boton-eliminar {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    margin-right: 5px;
+}
+
+.boton-editar { background-color: #ffc107; color: #333; }
+.boton-editar:hover { background-color: #e0a800; }
+
+.boton-eliminar { background-color: #dc3545; }
+.boton-eliminar:hover { background-color: #c82333; }

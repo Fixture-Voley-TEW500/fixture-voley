@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Equipos - Fixture Voley</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="fondo-gris">
+
+    <div class="contenedor-dashboard">
+        <!-- Encabezado -->
+        <header class="header-dashboard">
+            <h1>🏐 Gestión de Equipos</h1>
+            <a href="login.php" class="boton-salir">Cerrar Sesión</a>
+        </header>
+
+        <!-- Formulario de Registro -->
+        <section class="seccion-registro">
+            <h2>Registrar Nuevo Equipo</h2>
+            <form class="formulario-equipo">
+                <input type="text" placeholder="Nombre del Equipo" required>
+                <input type="text" placeholder="Nombre del Capitán" required>
+                <input type="text" placeholder="Teléfono de Contacto" required>
+                <button type="submit" class="boton-principal">Guardar Equipo</button>
+            </form>
+        </section>
+
+        <!-- Tabla de Lista -->
+        <section class="seccion-lista">
+            <h2>Lista de Equipos Registrados</h2>
+            <table class="tabla-equipos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Equipo</th>
+                        <th>Capitán</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Datos de ejemplo -->
+                    <tr>
+                        <td>1</td>
+                        <td>Los Tigres</td>
+                        <td>Carlos Gómez</td>
+                        <td>
+                            <button class="boton-editar">Editar</button>
+                            <button class="boton-eliminar">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Las Águilas</td>
+                        <td>María López</td>
+                        <td>
+                            <button class="boton-editar">Editar</button>
+                            <button class="boton-eliminar">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+</body>
+</html>

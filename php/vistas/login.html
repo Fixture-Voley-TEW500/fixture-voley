@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Fixture Voley</title>
+    <!-- Enlazamos el CSS. Los "../" significan "salir de la carpeta vistas" hasta la raíz -->
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="fondo-degradado">
+
+    <div class="contenedor-login">
+        <div class="logo-login">
+            <!-- Puedes poner una imagen de la carpeta assets si quieres -->
+            <h1>🏐 Fixture Voley</h1>
+        </div>
+        
+        <h2>Iniciar Sesión</h2>
+        
+        <form>
+            <div class="grupo-input">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
+            </div>
+            
+            <div class="grupo-input">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+            
+            <button type="submit" class="boton-principal">Ingresar</button>
+        </form>
+    </div>
+
+</body>
+</html>
